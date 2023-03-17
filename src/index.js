@@ -1,7 +1,7 @@
 import './css/styles.css';
 import { instance } from './services/api';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import simpleLightbox from 'simplelightbox';
+import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
