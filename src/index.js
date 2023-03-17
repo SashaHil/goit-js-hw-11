@@ -1,19 +1,7 @@
 import './css/styles.css';
-// import { onSubmit } from './services/markup';
-// import { getAllPhotos } from './requests/images';
-// import { instance } from './services/api';
-
-// async function addImages() {
-//   const imageInfo = await getAllPhotos();
-//   console.log([addImages]);
-//   onSubmit(addImages.name);
-// }
-
-// addImages();
-
-import axios from 'axios';
+import { instance } from './services/api';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import SimpleLightbox from 'simplelightbox';
+import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
@@ -31,6 +19,7 @@ refs.loadMore.addEventListener('click', onLoadMore);
 
 function onSubmit(e) {
   e.preventDefault();
+
   page = 1;
 
   refs.gallery.innerHTML = '';
@@ -51,31 +40,6 @@ function onLoadMore() {
   const name = refs.input.value.trim();
   page += 1;
   instance(name, page);
-}
-
-export async function instance(name, page) {
-  const BASE_URL = 'https://pixabay.com/api/';
-
-  const options = {
-    params: {
-      key: '34416296-fda96b516d83885efe030181a',
-      q: name,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: 'true',
-      page: page,
-      per_page: 40,
-    },
-  };
-  try {
-    const response = await axios.get(BASE_URL, options);
-
-    Notification(response.data.hits.length, response.data.total);
-
-    createItems(response.data);
-  } catch (error) {
-    console.log(error);
-  }
 }
 
 export function createItems(photos) {
@@ -121,7 +85,7 @@ const simpleLightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
 
-function Notification(length, totalHits) {
+export function Notification(length, totalHits) {
   if (length === 0) {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
