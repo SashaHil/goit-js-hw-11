@@ -17,7 +17,7 @@ refs.btnloadMore.style.display = 'none';
 refs.form.addEventListener('submit', onSubmit);
 refs.btnloadMore.addEventListener('click', onLoadMore);
 
-function onSubmit(e) {
+async function onSubmit(e) {
   e.preventDefault();
 
   page = 1;
@@ -27,7 +27,8 @@ function onSubmit(e) {
   const name = refs.input.value.trim();
 
   if (name !== '') {
-    instance(name);
+    const data = await instance(name);
+    createItems(data);
   } else {
     refs.btnloadMore.style.display = 'none';
     return Notify.failure(
@@ -36,13 +37,14 @@ function onSubmit(e) {
   }
 }
 
-function onLoadMore() {
+async function onLoadMore() {
   const name = refs.input.value.trim();
   page += 1;
-  instance(name, page);
+  const data = await instance(name, page);
+  createItems(data, true);
 }
 
-export function createItems(photos) {
+export function createItems(photos, append = false) {
   const markup = photos.hits
     .map(
       ({
@@ -76,7 +78,11 @@ export function createItems(photos) {
    </a>`
     )
     .join('');
-  refs.gallery.insertAdjacentHTML('beforeend', markup);
+  if (append) {
+    refs.gallery.insertAdjacentHTML('beforeend', markup);
+  } else {
+    refs.gallery.innerHTML = markup;
+  }
   simpleLightbox.refresh();
 }
 

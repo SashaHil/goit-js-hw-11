@@ -22,12 +22,6 @@ body {
   position: relative;
 }
 
-.is-hidden {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-}
-
 img {
   display: block;
   width: 100%;

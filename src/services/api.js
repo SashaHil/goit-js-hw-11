@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { createItems } from '../index';
 import { Notification } from '../index';
 
 export async function instance(name, page) {
@@ -20,7 +19,7 @@ export async function instance(name, page) {
     const response = await axios.get(BASE_URL, options);
     Notification(response.data.hits.length, response.data.totalHits);
 
-    createItems(response.data);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
