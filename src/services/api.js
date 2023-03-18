@@ -18,7 +18,7 @@ export async function instance(name, page) {
   };
   try {
     const response = await axios.get(BASE_URL, options);
-    Notification(response.data.hits.length, response.data.total);
+    Notification(response.data.hits.length, response.data.totalHits);
 
     createItems(response.data);
   } catch (error) {
